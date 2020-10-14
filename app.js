@@ -1,11 +1,19 @@
 // 引入express
 const express = require("express");
 const path = require("path");
-
+// 引入body-parser 處理post請求
+const bodyParser = require('body-parser')
+// 導入expess-session
+const session = require('express-session');
 const app = express();
 // 資料庫連接
 require("./model/connect");
 
+// 官方建議使用false (採querystring方式處理)
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// 調用app.use(session()) 攔截session請求
+app.use(session({ secret: 'secret key' }));
 //開放靜態資源文件
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -19,6 +27,10 @@ app.engine("art", require("express-art-template"));
 // 導入route模組  .js可省略
 const home = require("./route/home");
 const admin = require("./route/admin");
+const { nextTick } = require("process");
+// 攔截請求，判斷用戶狀態
+
+app.use('/admin', require('./middleware/loginGuard'))
 
 // 設定攔截請求 路由匹配路徑
 app.use("/home", home);

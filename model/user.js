@@ -1,6 +1,10 @@
 // 建立使用者集合
 
 const mongoose = require("mongoose");
+
+// 導入bcrypt 
+const bcrypt = require("bcrypt");
+
 // 創建用戶集合規則
 const userSchema = new mongoose.Schema({
   username: {
@@ -30,22 +34,23 @@ const userSchema = new mongoose.Schema({
     default: 0,
   },
 });
+const User = mongoose.model("User", userSchema);
 
 //創建集合
-const User = mongoose.model("User", userSchema);
-// User.create({
-//   username: "admin",
-//   email: "admin@don.local",
-//   password: "123456",
-//   role: "admin",
-//   state: 0,
-// })
-//   .then(() => {
-//     console.log("Create user success");
-//   })
-//   .catch((err) => {
-//     console.log("Error" + err);
-//   })
+async function createUser() {
+  const salt = await bcrypt.genSalt(10);
+  const pass = await bcrypt.hash('123456', salt)
+
+  const user = await User.create({
+    username: "admin",
+    email: "admin@don.local",
+    password: pass,
+    role: "admin",
+    state: 0,
+  })
+
+}
+// createUser();
 // 將用集合做為模塊成員進行導出
 module.exports = {
   User: User,
