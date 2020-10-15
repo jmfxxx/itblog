@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 
 // 導入bcrypt 
 const bcrypt = require("bcrypt");
+// 引入joi模塊
+const Joi = require('joi');
 
 // 創建用戶集合規則
 const userSchema = new mongoose.Schema({
@@ -50,8 +52,26 @@ async function createUser() {
   })
 
 }
+
+// 驗証用戶訊息
+const validateUser = user => {
+  // 定義驗証規則
+  // role 角色:只允許這兩個 normal 及 admin
+  // state 狀態只允許2種(0,1)
+  const schema = Joi.object({
+    username: Joi.string().min(2).max(12).required().error(new Error('用戶名不符合規則,名字至少2-12個字元')),
+    email: Joi.string(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required().error(new Error('密碼長度不符合要求')),
+    role: Joi.string().valid('normal', 'admin').required().error(new Error('角色不符合規則!')),
+    state: Joi.number().valid(0, 1).required().error(new Error('狀態值錯誤!'))
+  });
+  // 實施驗証
+  return schema.validateAsync(user)
+}
+
 // createUser();
 // 將用集合做為模塊成員進行導出
 module.exports = {
   User: User,
+  validateUser
 };
