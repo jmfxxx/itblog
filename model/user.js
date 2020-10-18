@@ -60,13 +60,14 @@ const validateUser = user => {
   // state 狀態只允許2種(0,1)
   const schema = Joi.object({
     username: Joi.string().min(2).max(12).required().error(new Error('用戶名不符合規則,名字至少2-12個字元')),
-    email: Joi.string(),
+    email: Joi.string().error(new Error('Email不可以為空!!!!')),
     password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required().error(new Error('密碼長度不符合要求')),
     role: Joi.string().valid('normal', 'admin').required().error(new Error('角色不符合規則!')),
     state: Joi.number().valid(0, 1).required().error(new Error('狀態值錯誤!'))
   });
   // 實施驗証
-  return schema.validateAsync(user)
+ console.log(schema.validate(user))
+    return  schema.validate(user)
 }
 
 // createUser();

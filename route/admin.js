@@ -11,6 +11,7 @@ admin.post('/login', require('./admin/login'))
 
 // 創建用戶列表路由
 admin.get('/user', require('./admin/userPage'))
+
 // 實現退出功能
 admin.get('/logout', require('./admin/logout'))
 
