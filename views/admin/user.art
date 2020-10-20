@@ -34,7 +34,7 @@
           <td>{{$value.role == "admin" ? '超級管理員': '一般使用者'}}</td>
           <td>{{$value.state == "0" ? "啟用":"禁用"}}</td>
           <td>
-            <a href="user-edit.html" class="glyphicon glyphicon-edit"></a>
+            <a href="/admin/user-edit?id={{@$value._id}}" class="glyphicon glyphicon-edit"></a>
             <i class="glyphicon glyphicon-remove" data-toggle="modal" data-target=".confirm-modal"></i>
           </td>
      
@@ -45,18 +45,17 @@
     <!-- /内容列表 -->
     <!-- 分页 -->
     <ul class="pagination">
-      <li>
-        <a href="#">
+      
+      <li style="display: <%=page-1 < 0  ?  'none':'inline' %>" >
+        <a href="/admin/user?page=<%=page-1%>">
           <span>&laquo;</span>
         </a>
       </li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li>
-        <a href="#">
+      <% for (var i=1 ;i<=total;i++) { %>
+      <li><a href="/admin/user?page=<%=i%>">{{i}}</a></li>
+      <% } %>
+      <li style="display: <%= page-0+1 > total ? 'none':'inline-block' %>"  >
+        <a href="/admin/user?page=<%=(page-0)+1%>">
           <span>&raquo;</span>
         </a>
       </li>
@@ -73,10 +72,10 @@
         <button type="button" class="close" data-dismiss="modal">
           <span>&times;</span>
         </button>
-        <h4 class="modal-title">请确认</h4>
+        <h4 class="modal-title">請確認</h4>
       </div>
       <div class="modal-body">
-        <p>您确定要删除这个用户吗?</p>
+        <p>你確定要刪除這個使用者嗎？</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">

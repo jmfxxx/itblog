@@ -12,39 +12,39 @@
     <div class="main">
         <!-- 分类标题 -->
         <div class="title">
-            <h4>5b9a716cb2d2bf17706bcc0a</h4>
+        <h4 style="display:{{button=='修改'? 'block' : 'none'}}">{{@user && user._id}}</h4>
             <p class="tips">{{message}}</p>
         </div>
         <!-- /分类标题 -->
-        <form class="form-container" action="/admin/user-edit" method="POST">
+        <form class="form-container" action="{{link}}" method="POST">
             <div class="form-group">
                 <label>使用者名稱</label>
-                <input name="username" type="text" class="form-control" placeholder="请输入用户名">
+                <input name="username" type="text" class="form-control" placeholder="請輸入使用者名稱" value="{{user && user.username}}">
             </div>
             <div class="form-group">
                 <label>電子信箱</label>
-                <input name="email" type="email" class="form-control" placeholder="请输入邮箱地址">
+                <input name="email" type="email" class="form-control" placeholder="請輸入電子信箱" value="{{user && user.email}}">
             </div>
             <div class="form-group">
                 <label>密碼</label>
-                <input name="password" type="password" class="form-control" placeholder="请输入密码">
+                <input name="password" type="password" class="form-control" placeholder="請輸入密碼" value="{{user &&  user.password}}" >
             </div>
             <div class="form-group">
                 <label>角色</label>
-                <select class="form-control" name="role">
-                    <option value="normal">普通用戶</option>
-                    <option value="admin">超級管理員</option>
+                <select class="form-control" name="role" >
+                    <option value="normal" {{user && user.role =='normal' ? 'selected':''}}>普通用戶</option>
+                    <option value="admin" {{user && user.role =='admin' ? 'selected':''}}>超級管理員</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>狀態</label>
-                <select class="form-control" name="state">
-                    <option value="0">啟用</option>
-                    <option value="1">停用</option>
+                <select class="form-control" name="state" >
+                    <option value="0" user && user.state =='0' ? 'selected':''}}>啟用</option>
+                    <option value="1" user && user.state =='1' ? 'selected':''}}>停用</option>
                 </select>
             </div>
             <div class="buttons">
-                <input type="submit" class="btn btn-primary">
+                <input type="submit" class="btn btn-primary" value="{{button}}">
             </div>
         </form>
     </div>
