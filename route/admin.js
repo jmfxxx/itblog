@@ -23,18 +23,15 @@ admin.post('/user-edit', require('./admin/user-edit-fn'))
 // 修改使用者路由(POST)
 admin.post('/user-modify', require('./admin/user-modify'))
 
+// // 刪除使用者路由
+admin.get('/delete', require('./admin/user-delete'))
 
-admin.get('/article-edit', (req, res) => {
-    res.render('admin/article-edit')
-})
+// 文章列表路由
+admin.get('/article', require('./admin/article'))
+// 文章編輯路由
+admin.get('/article-edit', require('./admin/article-edit'))
 
-
-
-admin.get('/article', (req, res) => {
-    res.render('admin/article')
-
-})
-
-
+// 實現文章添加功能的路由
+admin.post('/article-add', require('./admin/article-add'))
 
 module.exports = admin;
