@@ -37,13 +37,15 @@ app.use("/home", home);
 app.use("/admin", admin);
 
 // 錯誤處理中間件
-app.use((err,req,res,next) => {
-    console.log(err + 'typeof: '+typeof(err))
- const result = JSON.parse(err)
-console.log(result)
-console.log(result.path)
-console.log(result.message)
-res.redirect(`${result.path}?message=${result.message}`);
+app.use((err, req, res, next) => {
+    const result = JSON.parse(err)
+    let params = [];
+    for (let attr in result) {
+        if (attr != 'path') {
+            params.push(attr + '=' + result[attr]);
+        }
+    }
+    res.redirect(`${result.path}?${params.join('&')}`);
 })
 
 // list port
